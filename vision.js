@@ -1,6 +1,5 @@
 const express =require("express");// express 
 app =express();
-
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const fs = require("fs");// to read files 
@@ -15,6 +14,16 @@ const { Console } = require("console");
 
 app.use(express.static(__dirname));// to use static file
  
+function speec(text){
+  return (
+      new Promise((resolve,reject)=>{
+        
+         say.speak(text);
+         resolve();
+      }
+      )
+  )
+}
 function fileToGenerativePart(path, mimeType) {
     return {
       inlineData: {
@@ -84,7 +93,7 @@ const text = response.text();
 
 console.log(text);
 
-say.speak(text);//to convert text to audio
+ await speec(text);
 
 
 fs.unlinkSync(imageFilePath);
@@ -94,7 +103,7 @@ fs.unlinkSync(imageFilePath);
   
   captureAndUploadImage();
 })
-app.listen(process.env.PORT||3000,()=>{
+app.listen(8000,()=>{
 
   console.log("server running at localhost:8000");
 });
